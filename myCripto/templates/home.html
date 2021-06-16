@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>myCripto</title>
+    <link rel="stylesheet" href="/static/css/milligram.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
+
+    
+</head>
+<body>
+    <header>MyCripto</header>
+    <section class="container" id="principal">
+        <h1>Control de movimientos</h1>
+        <div class="lista-movimientos">
+            <table class="tabla-movimientos">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>From</th>
+                        <th>Cantidad</th>
+                        <th>To</th>
+                        <th>Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </section>
+    <hr>
+    <div class="detail-movimiento container">
+        <form>
+            <div class="row">
+                <input type="hidden" id="idMovimiento">
+                <div class="column">
+                    <label for="fecha">Fecha</label>
+                    <input type="date" name="fecha" id="fecha">
+                </div>
+                <div class="column column-75">
+                    <label for="concepto">Concepto</label>
+                    <input type="text" name="concepto" id="concepto">
+                </div>
+            </div>
+            <div class="row">
+                <div class="column column-33">
+                    <label for="esGasto">Tipo</label>
+                    <input type="radio" name="esGasto" id="gasto" value="1">Gasto
+                    <input type="radio" name="esGasto" id="ingreso" value="0">Ingreso
+                </div>
+                <div class="column column-33">
+                    <label for="categoria">Categoria</label>
+                    <select name="categoria" id="categoria">
+                        <option value="">No procede</option>
+                        <option value="SU">Supervivencia</option>
+                        <option value="OV">Ocio/Vicio</option>
+                        <option value="CU">Cultura</option>
+                        <option value="EX">Extras</option>
+                    </select>
+                </div>
+                
+            </div>
+        </form>
+    </div>
+    <div class="column column-33">
+        <h1>Actualiza Valor moneda</h1>
+        <div class="row">
+            <div class="column column-33">
+                From:
+                <select name="monedaFrom" id="monedaFrom">From:
+                    <option value="EUR">Euro</option> 
+                    <option value="BTC">Bitcoin</option> 
+                    <option value="ETH">Ethereum</option>
+                    <option value="XRP">XRP</option> 
+                    <option value="LTC">Debian</option> 
+                    <option value="BCH">Bitcoin Cash</option>
+                    <option value="BNB">Binance Coin</option>
+                    <option value="USDT">Tether</option>
+                    <option value="EOS">EOS</option>
+                    <option value="BSV">Bitcoin SV</option>
+                    <option value="XLM">Stellar</option>
+                    <option value="ADA">Cardano</option>
+                    <option value="TRX">Tron</option>
+                </select>
+            </div>
+            <div class="column column-33">
+                To:
+                <select name="monedaTo" id="monedaTo">
+                    <option value="EUR">Euro</option> 
+                    <option value="BTC">Bitcoin</option> 
+                    <option value="ETH">Ethereum</option>
+                    <option value="XRP">XRP</option> 
+                    <option value="LTC">Debian</option> 
+                    <option value="BCH">Bitcoin Cash</option>
+                    <option value="BNB">Binance Coin</option>
+                    <option value="USDT">Tether</option>
+                    <option value="EOS">EOS</option>
+                    <option value="BSV">Bitcoin SV</option>
+                    <option value="XLM">Stellar</option>
+                    <option value="ADA">Cardano</option>
+                    <option value="TRX">Tron</option>
+                </select>
+                </div>
+        </div>
+        <div class="row">
+            <div class="column column-33">
+                Cantidad:
+                <input type="text" name="cantidadFrom" id="cantidadFrom">
+            </div>
+            <div class="column column-33">
+                Cantidad: <div id="cantidadTo"></div>
+                Precio Unitario:
+                <div id="exchangeRate"></div>
+            </div>
+        </div>
+        <div class="row">
+            <button id="actualizaValor">Actualizar</button>
+            <div id="datoValor"></div>
+            <script src="/static/js/apicode.js"></script>
+        </div> 
+                                 
+    </div>
+<footer>&copy 2021 -todos los derechos reservados</footer>
+</body>
+</html>

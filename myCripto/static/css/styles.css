@@ -1,0 +1,17 @@
+.tabla-movimientos tbody tr:hover {
+    background-color: aquamarine;
+}
+.column-bgrd {
+    background-color: aquamarine !important;
+    margin: 10px;
+}
+footer {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background-color: aquamarine;
+}
+header {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background-color: aquamarine;
+}
