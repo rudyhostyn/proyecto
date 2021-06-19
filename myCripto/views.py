@@ -6,6 +6,10 @@ import sqlite3
 
 @app.route('/')
 def index():
+    return render_template("home.html")
+
+@app.route('/api/v1/movimientos')
+def movimientosAPI():
 
     conexion = sqlite3.connect("dbmovimientos.db")
     cur = conexion.cursor()

@@ -8,30 +8,7 @@ function gestionaRespuestaAsincrona(){
         respuesta = JSON.parse(this.responseText)
         }
     const rdo = respuesta.data
-/*
-    var divisaFrom = document.createElement("p")
-        datoValor.appendChild(divisaFrom)
-        divisaFrom.classList.add("column")
-        divisaFrom.classList.add("column-33")
-        divisaFrom.classList.add("column-bgrd")
-        divisaFrom.innerHTML = rdo.symbol
-        
-    var divisaTo = document.createElement("p")
-        datoValor.appendChild(divisaTo)
-        divisaTo.classList.add("column")
-        divisaTo.classList.add("column-33")
-        divisaTo.classList.add("column-bgrd")
-        divisaTo.innerHTML = Object.keys(rdo.quote)[0]
 
-    var tipoCambio = document.createElement("p")
-        datoValor.appendChild(tipoCambio)
-        tipoCambio.classList.add("column")
-        tipoCambio.classList.add("column-33")
-        tipoCambio.classList.add("column-bgrd")
-        divisa2 = Object.keys(rdo.quote)[0]
-        valor = `rdo.quote.${divisa2}.price`
-        tipoCambio.innerHTML = eval(valor)
-*/
 divisa2 = Object.keys(rdo.quote)[0]
 valor = `rdo.quote.${divisa2}.price`
 

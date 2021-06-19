@@ -7,13 +7,13 @@
     <title>myCripto</title>
     <link rel="stylesheet" href="/static/css/milligram.css">
     <link rel="stylesheet" href="/static/css/styles.css">
-
-    
+    <script src="/static/js/home.js"></script>    
 </head>
 <body>
     <header>MyCripto</header>
+    
     <section class="container" id="principal">
-        <h1>Control de movimientos</h1>
+        <h2>Balance de movimientos</h2>
         <div class="lista-movimientos">
             <table class="tabla-movimientos">
                 <thead>
@@ -26,46 +26,16 @@
                         <th>Cantidad</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody></tbody>   
             </table>
         </div>
     </section>
     <hr>
     <div class="detail-movimiento container">
-        <form>
-            <div class="row">
-                <input type="hidden" id="idMovimiento">
-                <div class="column">
-                    <label for="fecha">Fecha</label>
-                    <input type="date" name="fecha" id="fecha">
-                </div>
-                <div class="column column-75">
-                    <label for="concepto">Concepto</label>
-                    <input type="text" name="concepto" id="concepto">
-                </div>
-            </div>
-            <div class="row">
-                <div class="column column-33">
-                    <label for="esGasto">Tipo</label>
-                    <input type="radio" name="esGasto" id="gasto" value="1">Gasto
-                    <input type="radio" name="esGasto" id="ingreso" value="0">Ingreso
-                </div>
-                <div class="column column-33">
-                    <label for="categoria">Categoria</label>
-                    <select name="categoria" id="categoria">
-                        <option value="">No procede</option>
-                        <option value="SU">Supervivencia</option>
-                        <option value="OV">Ocio/Vicio</option>
-                        <option value="CU">Cultura</option>
-                        <option value="EX">Extras</option>
-                    </select>
-                </div>
-                
-            </div>
-        </form>
+    
     </div>
-    <div class="column column-33">
-        <h1>Actualiza Valor moneda</h1>
+    <div class="container" id="principal">
+        <h2>Comprar/vender</h2>
         <div class="row">
             <div class="column column-33">
                 From:
