@@ -2,7 +2,9 @@ from myCripto import app
 from flask import jsonify, render_template, request
 from http import HTTPStatus
 import sqlite3
+from myCripto.dataaccess import DBmanager
 
+dbManager = DBmanager(app.config.get('DATABASE'))
 
 @app.route('/')
 def index():
@@ -27,7 +29,16 @@ def movimientosAPI():
         movimientos.append(d)
 
     conexion.close()
+    try:
+        return jsonify({'status': 'success', 'movimientos': movimientos})
+    except sqlite3.Error as e:
+        return jsonify({'status': 'fail', 'mensaje': str(e)})
     
-    return jsonify(movimientos)
-    
-    
+@app.route('/api/v1/movimiento', methods=['POST'])
+def grabar():
+    dbManager.modificaTablaSQL("""
+        INSERT INTO dbmovimientos 
+                    (date, time, moneda_from, cantidad_from, moneda_to, cantidad_to)
+            VALUES (:date, :time, :moneda_from, :cantidad_from, :moneda_to, :cantidad_to) 
+        """, request.json)
+    return jsonify({"status": "success", "mensaje": "registro creado"})
