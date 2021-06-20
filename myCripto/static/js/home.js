@@ -1,6 +1,6 @@
-
-
 /* dia 22 3:25:00*/
+
+const xhr2 = new XMLHttpRequest()
 
 function muestraMovimientos() {
     
@@ -42,7 +42,7 @@ function capturaFormMovimiento() {
 }
 function borrado(){
     document.querySelectorAll('.paraBorrar').forEach(e => e.remove());
-    muestraMovimientos
+    llamaApiMovimientos()
     console.log("hola")
 }
 function llamaApiCreaMovimiento() {
@@ -57,12 +57,13 @@ function llamaApiCreaMovimiento() {
     xhr2.send(JSON.stringify(grabacion))
 }
 
-const xhr2 = new XMLHttpRequest()
-xhr2.onload = muestraMovimientos
+
+
 
 function llamaApiMovimientos() {
     
     xhr2.open('GET', `http://localhost:5000/api/v1/movimientos`, true)
+    xhr2.onload = muestraMovimientos
     xhr2.send()
 }
 
