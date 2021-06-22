@@ -6,13 +6,13 @@
     margin: 10px;
 }
 footer {
-    padding-top: 30px;
-    padding-bottom: 30px;
+    padding-top: 15px;
+    padding-bottom: 15px;
     background-color: aquamarine;
 }
 header {
-    padding-top: 30px;
-    padding-bottom: 30px;
+    padding-top: 15px;
+    padding-bottom: 10px;
     background-color: aquamarine;
-    font-size: 4em;
+    font-size: 3em;
 }

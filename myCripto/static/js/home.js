@@ -1,4 +1,19 @@
 /* dia 22 3:25:00*/
+const descMonedas = {
+    EUR: 'Euro',
+    BTC: 'Bitcoin', 
+    ETH: 'Ethereum',
+    XRP: 'XRP', 
+    LTC: 'Debian', 
+    BCH: 'Bitcoin Cash',
+    BNB: 'Binance Coin',
+    USDT: 'Tether',
+    EOS: 'EOS',
+    BSV: 'Bitcoin SV',
+    XLM: 'Stellar',
+    ADA: 'Cardano',
+    TRX: 'Tron',
+}
 
 const xhr2 = new XMLHttpRequest()
 
@@ -28,6 +43,40 @@ function muestraMovimientos() {
             tbody = document.querySelector(".tabla-movimientos tbody")
             tbody.appendChild(fila)
         }
+
+        /*Selecciono las monedas unicas que hay en balance movimientos*/
+        const distinto = (valor, indice, self) => {
+            return self.indexOf(valor) === indice;
+        }
+        var unique =[] 
+        for (let i = 0; i < resp.movimientos.length; i++){
+            const movimiento = resp.movimientos[i]
+            var total = 
+            unique.push(movimiento.moneda_from)
+        }
+        var unicos = unique.filter(distinto)
+
+        for (let i = 0; i < unicos.length; i++){
+            const filas = document.createElement("option")
+            filas.setAttribute("value", unicos[i])
+            const monedaDentro =`<td id="c_moneda_from">${unicos[i] ? descMonedas[unicos[i]] : ""}</td>`
+            filas.innerHTML = monedaDentro
+            monedasStock = document.querySelector("#monedaFrom")
+            monedasStock.appendChild(filas)
+        }
+        
+        /*for (let i = 0; i < resp.movimientos.length; i++){
+            const movimiento = resp.movimientos[i]
+            unique.push(movimiento.moneda_from)
+                        
+            const filas = document.createElement("option")
+            filas.setAttribute("value", movimiento.moneda_from )
+            const monedaDentro =`<td id="c_moneda_from">${movimiento.moneda_from ? descMonedas[movimiento.moneda_from] : ""}</td>`
+            filas.innerHTML = monedaDentro
+            monedasStock = document.querySelector("#monedaFrom")
+            monedasStock.appendChild(filas)
+        }
+        */
     } 
 }
 function capturaFormMovimiento() {
@@ -56,18 +105,12 @@ function llamaApiCreaMovimiento() {
 
     xhr2.send(JSON.stringify(grabacion))
 }
-
-
-
-
 function llamaApiMovimientos() {
     
     xhr2.open('GET', `http://localhost:5000/api/v1/movimientos`, true)
     xhr2.onload = muestraMovimientos
     xhr2.send()
 }
-
-
 window.onload = function() {
     llamaApiMovimientos()
     document.querySelector("#grabaValor")

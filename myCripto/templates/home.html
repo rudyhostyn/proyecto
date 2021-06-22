@@ -14,21 +14,27 @@
     
     <section class="container" id="principal">
         <h2>Balance de movimientos</h2>
-        <div class="lista-movimientos">
-            <table class="tabla-movimientos">
-                <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Hora</th>
-                        <th>From</th>
-                        <th>Cantidad</th>
-                        <th>To</th>
-                        <th>Cantidad</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>   
-            </table>
-        </div>
+       
+            <div class="lista-movimientos" style="
+                    border: 1px solid #333333;
+                    height: 18vw;
+                    overflow: scroll;">
+                <table class="tabla-movimientos">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>From</th>
+                            <th>Cantidad</th>
+                            <th>To</th>
+                            <th>Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody ></tbody>  
+                                    
+                </table>
+            </div>
+        
     </section>
     <hr>
     <div class="detail-movimiento container">
@@ -37,24 +43,13 @@
     <div class="container" id="principal">
         <h2>Comprar/vender</h2>
         <div class="row">
+            
             <div class="column column-33">
                 From:
-                <select name="monedaFrom" id="monedaFrom">From:
-                    <option value="EUR">Euro</option> 
-                    <option value="BTC">Bitcoin</option> 
-                    <option value="ETH">Ethereum</option>
-                    <option value="XRP">XRP</option> 
-                    <option value="LTC">Debian</option> 
-                    <option value="BCH">Bitcoin Cash</option>
-                    <option value="BNB">Binance Coin</option>
-                    <option value="USDT">Tether</option>
-                    <option value="EOS">EOS</option>
-                    <option value="BSV">Bitcoin SV</option>
-                    <option value="XLM">Stellar</option>
-                    <option value="ADA">Cardano</option>
-                    <option value="TRX">Tron</option>
+                <select name="monedaFrom" id="monedaFrom">
+                    <div id="monedasStock"></div>
                 </select>
-            </div>
+            </div>  
             <div class="column column-33">
                 To:
                 <select name="monedaTo" id="monedaTo">
