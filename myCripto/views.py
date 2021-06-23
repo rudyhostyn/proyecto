@@ -50,11 +50,11 @@ def saldo():
 
     cur.execute("""WITH resultado AS
             (
-            SELECT dbmovimientos.moneda_from AS moneda , -Sum(dbmovimientos.cantidad_from) AS total FROM dbmovimientos GROUP by moneda_from
+            SELECT dbmovimientos.moneda_from AS monedaCodigo , -Sum(dbmovimientos.cantidad_from) AS total FROM dbmovimientos GROUP by moneda_from
             UNION ALL
-            SELECT dbmovimientos.moneda_to AS moneda , Sum(dbmovimientos.cantidad_to) AS total FROM dbmovimientos GROUP BY	moneda_to
+            SELECT dbmovimientos.moneda_to AS monedaCodigo , Sum(dbmovimientos.cantidad_to) AS total FROM dbmovimientos GROUP BY	moneda_to
             )
-            SELECT moneda, sum(total) FROM resultado GROUP BY moneda;""")
+            SELECT monedaCodigo, sum(total) AS monedaSaldo FROM resultado GROUP BY monedaCodigo;""")
     
     claves = cur.description
     filas = cur.fetchall()

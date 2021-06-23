@@ -43,18 +43,33 @@ function muestraMovimientos() {
             tbody = document.querySelector(".tabla-movimientos tbody")
             tbody.appendChild(fila)
         }
+        
+    }
+}
+function muestraSaldoMonedas(){
 
-        /*Selecciono las monedas unicas que hay en balance movimientos*/
+    if (this.readyState === 4 && this.status === 200) {
+        const resp1 = JSON.parse(this.responseText)
+
+        if (resp1.status !== 'success') {
+            alert("Se ha producido un error en la consulta de movimientos")
+            return
+        }
         const distinto = (valor, indice, self) => {
             return self.indexOf(valor) === indice;
         }
         var unique =[] 
-        for (let i = 0; i < resp.movimientos.length; i++){
-            const movimiento = resp.movimientos[i]
-            var total = 
-            unique.push(movimiento.moneda_from)
+        for (let i = 0; i < resp1.movimientos.length; i++){
+            const movimiento = resp1.movimientos[i]
+            if (movimiento.monedaSaldo !== 0.0) {
+                var total = unique.push(movimiento.monedaCodigo)
+            }
+        }
+        if (resp1.movimientos.length === 0){        
+            var total = unique.push("EUR")
         }
         var unicos = unique.filter(distinto)
+
 
         for (let i = 0; i < unicos.length; i++){
             const filas = document.createElement("option")
@@ -64,46 +79,80 @@ function muestraMovimientos() {
             monedasStock = document.querySelector("#monedaFrom")
             monedasStock.appendChild(filas)
         }
-        
-        /*for (let i = 0; i < resp.movimientos.length; i++){
-            const movimiento = resp.movimientos[i]
-            unique.push(movimiento.moneda_from)
-                        
-            const filas = document.createElement("option")
-            filas.setAttribute("value", movimiento.moneda_from )
-            const monedaDentro =`<td id="c_moneda_from">${movimiento.moneda_from ? descMonedas[movimiento.moneda_from] : ""}</td>`
-            filas.innerHTML = monedaDentro
-            monedasStock = document.querySelector("#monedaFrom")
-            monedasStock.appendChild(filas)
-        }
-        */
+        aaa=document.querySelector("#situacionMonedas")
+        for (let i = 0; i < resp1.movimientos.length; i++){
+            const movimiento = resp1.movimientos[i]
+            if (movimiento.monedaSaldo !== 0.0) {
+            const fila = document.createElement("tr")
+            const monedaCod =`
+                <td>${movimiento.monedaCodigo ? descMonedas[movimiento.monedaCodigo] : ""}</td>        
+                <td class ="c_${movimiento.monedaCodigo}">${movimiento.monedaSaldo}</td>
+            `
+            fila.innerHTML = monedaCod
+            aaa.appendChild(fila)  
+            }
+        }       
     } 
+    llamaApiMovimientos();
 }
 function capturaFormMovimiento() {
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     const grabacion = {}
-    grabacion.date = "2021-01-19"
-    grabacion.time = "10:25:45.000"
+    grabacion.date = date
+    grabacion.time = time
     grabacion.moneda_from = document.querySelector("#monedaFrom").value
     grabacion.cantidad_from = document.querySelector("#cantidadFrom").value
     grabacion.moneda_to = document.querySelector("#monedaTo").value
-    grabacion.cantidad_to = "58"
+    grabacion.cantidad_to = document.querySelector("#cantidadTo").innerHTML
     return grabacion    
 }
 function borrado(){
+
     document.querySelectorAll('.paraBorrar').forEach(e => e.remove());
-    llamaApiMovimientos()
-    console.log("hola")
+    llamaApiMovimientos();
+    actualizaSaldoMonedas();
+    window.location.reload()
+}
+function verifica(){
+    var cantidadAVender = document.querySelector("#cantidadFrom").value
+    if (document.querySelector("#situacionMonedas").innerHTML.length === 0) {
+        var cantidadMaximaVenta = cantidadAVender+1
+    }else{
+    var cantidadMaximaVenta = document.querySelector(`.c_${document.querySelector("#monedaFrom").value}`).innerHTML
+    }
+    
+
+    if(document.querySelector("#monedaFrom").value !== "EUR"){
+        if((cantidadMaximaVenta-cantidadAVender)>=0){
+            llamaApiCreaMovimiento()
+        }else{
+            alert("No puedes vender")
+            borrado()
+        }
+    }else{
+        llamaApiCreaMovimiento()
+    }
+
 }
 function llamaApiCreaMovimiento() {
 
     const grabacion = capturaFormMovimiento()
-
+        
     xhr2.open("POST", `http://localhost:5000/api/v1/movimiento`, true)
     xhr2.onload = borrado
 
     xhr2.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
 
     xhr2.send(JSON.stringify(grabacion))
+}
+function actualizaSaldoMonedas() {
+    const grabacion = capturaFormMovimiento()
+
+    xhr2.open("GET", `http://localhost:5000//api/v1/saldo`, true)
+    xhr2.onload = muestraSaldoMonedas
+    xhr2.send()
 }
 function llamaApiMovimientos() {
     
@@ -112,7 +161,8 @@ function llamaApiMovimientos() {
     xhr2.send()
 }
 window.onload = function() {
-    llamaApiMovimientos()
+    actualizaSaldoMonedas();
     document.querySelector("#grabaValor")
-        .addEventListener("click", llamaApiCreaMovimiento)
+        .addEventListener("click", verifica)
+    
 }

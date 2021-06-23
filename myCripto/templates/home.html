@@ -13,28 +13,28 @@
     <header>MyCripto</header>
     
     <section class="container" id="principal">
-        <h2>Balance de movimientos</h2>
+        <h2>Balance de movimientos</h2> 
+            
+        <div class="lista-movimientos" style="
+                border: 1px solid #333333;
+                height: 18vw;
+                overflow: scroll;">
+            <table class="tabla-movimientos">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>From</th>
+                        <th>Cantidad</th>
+                        <th>To</th>
+                        <th>Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody ></tbody>  
+                                
+            </table>
+        </div>
        
-            <div class="lista-movimientos" style="
-                    border: 1px solid #333333;
-                    height: 18vw;
-                    overflow: scroll;">
-                <table class="tabla-movimientos">
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Hora</th>
-                            <th>From</th>
-                            <th>Cantidad</th>
-                            <th>To</th>
-                            <th>Cantidad</th>
-                        </tr>
-                    </thead>
-                    <tbody ></tbody>  
-                                    
-                </table>
-            </div>
-        
     </section>
     <hr>
     <div class="detail-movimiento container">
@@ -46,14 +46,16 @@
             
             <div class="column column-33">
                 From:
-                <select name="monedaFrom" id="monedaFrom">
+                <select name="monedaFrom" id="monedaFrom" class = "monedaFrom">
                     <div id="monedasStock"></div>
+                    <div id="#monedaSaldo"></div>
+
                 </select>
             </div>  
             <div class="column column-33">
                 To:
-                <select name="monedaTo" id="monedaTo">
-                    <option value="EUR">Euro</option> 
+                <select name="monedaTo" id="monedaTo" class = "monedaTo">
+                    <option value="EUR" value="1000">Euro</option> 
                     <option value="BTC">Bitcoin</option> 
                     <option value="ETH">Ethereum</option>
                     <option value="XRP">XRP</option> 
@@ -67,7 +69,10 @@
                     <option value="ADA">Cardano</option>
                     <option value="TRX">Tron</option>
                 </select>
-                </div>
+            </div>
+            <div class="column column-33">
+                <div id = "situacionMonedas"></div>
+            </div>
         </div>
         <div class="row">
             <div class="column column-33">
@@ -75,7 +80,8 @@
                 <input type="text" name="cantidadFrom" id="cantidadFrom">
             </div>
             <div class="column column-33">
-                Cantidad: <div id="cantidadTo"></div>
+                Cantidad: 
+                <div id="cantidadTo"></div>
                 Precio Unitario:
                 <div id="exchangeRate"></div>
             </div>
