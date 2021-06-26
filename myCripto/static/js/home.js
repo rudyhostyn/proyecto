@@ -1,5 +1,5 @@
-/* dia 22 3:25:00*/
-const descMonedas = {
+
+/*const descMonedas = {
     EUR: 'Euro',
     BTC: 'Bitcoin', 
     ETH: 'Ethereum',
@@ -12,9 +12,56 @@ const descMonedas = {
     BSV: 'Bitcoin SV',
     XLM: 'Stellar',
     ADA: 'Cardano',
-    TRX: 'Tron',
+    TRX: 'TRON',
 }
+*/
+const descMonedas = {
+    EUR: 'Euro',
+    BTC: 'Bitcoin', 
+    
+}
+var descMonedas3 = {}
+function sacaUnicos(){
+    var listaMonedasCod = Object.keys(descMonedas2)
+    var listaMonedasVal = Object.values(descMonedas2)
+    for (var i = 0; i < listaMonedasCod.length; i++) {  
+        codMoneda = listaMonedasCod[i]
+        codMonedaVal = listaMonedasVal[i]
+        var tt = document.getElementsByClassName(`v_${codMoneda}`)
+        if (tt.length > 0){
+            /*descMonedas3[codMoneda] = codMonedaVal   */
+            descMonedas3 = localStorage.setItem(codMoneda, codMonedaVal);     
+        }
+    }
+console.log(descMonedas3)
+}
+/*Local storage:  https://rolandocaldas.com/html5/localstorage-en-html5 */
 
+var status = 0
+function sacaValorUnico(){
+    var listaMonedasCod = Object.keys(descMonedas2)
+    var listaMonedasVal = Object.values(descMonedas2)
+    for (var i = 0; i < listaMonedasCod.length; i++) {  
+        codMoneda = listaMonedasCod[i]
+        codMonedaVal = listaMonedasVal[i]
+        var tt = document.getElementsByClassName(`v_${codMoneda}`)
+        if (tt.length > 0){
+        cantidadMonedas = `document.querySelector('.c_${codMoneda}').innerHTML` 
+        Cantidadmonedas = eval(cantidadMonedas)
+        valorMonedaStr = valorActualMonedas[codMonedaVal]
+        valorMonedaFlt = parseFloat(valorMonedaStr)
+        console.log("codMoneda: " + codMoneda)
+        console.log("Cantidadmonedas: " + Cantidadmonedas)
+        console.log("cantidadMonedas: " + cantidadMonedas)
+        console.log("codMonedaVal: " + codMonedaVal)
+        console.log("valorMonedaStr: " + valorMonedaStr)
+        console.log("valorMonedaFlt: " + valorMonedaFlt)
+        status = parseFloat(status) + parseFloat(valorMonedaFlt) * parseFloat(Cantidadmonedas)
+         
+
+        }
+    }
+}
 const xhr2 = new XMLHttpRequest()
 
 function muestraMovimientos() {
@@ -46,6 +93,7 @@ function muestraMovimientos() {
         
     }
 }
+var unicos =[]
 function muestraSaldoMonedas(){
 
     if (this.readyState === 4 && this.status === 200) {
@@ -55,6 +103,7 @@ function muestraSaldoMonedas(){
             alert("Se ha producido un error en la consulta de movimientos")
             return
         }
+        /* Calculamos las monedas que tienen saldo -> unicos */
         const distinto = (valor, indice, self) => {
             return self.indexOf(valor) === indice;
         }
@@ -69,8 +118,9 @@ function muestraSaldoMonedas(){
             var total = unique.push("EUR")
         }
         var unicos = unique.filter(distinto)
-
-
+      
+        
+        /* Campo lista desplegable: solo aparecen valores que tengan saldo y siempre euro */
         for (let i = 0; i < unicos.length; i++){
             const filas = document.createElement("option")
             filas.setAttribute("value", unicos[i])
@@ -79,13 +129,14 @@ function muestraSaldoMonedas(){
             monedasStock = document.querySelector("#monedaFrom")
             monedasStock.appendChild(filas)
         }
+        /* Tabla que muestra las monedas que tienen saldo y su saldo */
         aaa=document.querySelector("#situacionMonedas")
         for (let i = 0; i < resp1.movimientos.length; i++){
             const movimiento = resp1.movimientos[i]
             if (movimiento.monedaSaldo !== 0.0) {
             const fila = document.createElement("tr")
             const monedaCod =`
-                <td>${movimiento.monedaCodigo ? descMonedas[movimiento.monedaCodigo] : ""}</td>        
+                <td class ="v_${movimiento.monedaCodigo}">${movimiento.monedaCodigo ? descMonedas[movimiento.monedaCodigo] : ""}</td>        
                 <td class ="c_${movimiento.monedaCodigo}">${movimiento.monedaSaldo}</td>
             `
             fila.innerHTML = monedaCod
@@ -94,7 +145,10 @@ function muestraSaldoMonedas(){
         }       
     } 
     llamaApiMovimientos();
-}
+    sacaValorMonedas();
+    sacaUnicos();
+    console.log(valorActualMonedas);
+    }
 function capturaFormMovimiento() {
     var today = new Date();
     var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
@@ -116,6 +170,16 @@ function borrado(){
     window.location.reload()
 }
 function verifica(){
+    /* control de no vender y comprar la misma moneda */
+
+    var monedaAvender = document.querySelector("#monedaFrom").value
+    var monedaAcomprar = document.querySelector("#monedaTo").value
+    if (monedaAcomprar === monedaAvender) {
+        alert("La moneda a comprar y a vender no pueden ser las mismas")
+        borrado()
+    }
+    
+    /* Control de no vender mas de lo que tenemos excepto el Euro*/
     var cantidadAVender = document.querySelector("#cantidadFrom").value
     if (document.querySelector("#situacionMonedas").innerHTML.length === 0) {
         var cantidadMaximaVenta = cantidadAVender+1
@@ -160,9 +224,13 @@ function llamaApiMovimientos() {
     xhr2.onload = muestraMovimientos
     xhr2.send()
 }
+
+
 window.onload = function() {
     actualizaSaldoMonedas();
     document.querySelector("#grabaValor")
         .addEventListener("click", verifica)
+    document.querySelector("#status")
+        .addEventListener("click", sacaValorUnico)
     
 }

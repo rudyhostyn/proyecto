@@ -7,7 +7,8 @@
     <title>myCripto</title>
     <link rel="stylesheet" href="/static/css/milligram.css">
     <link rel="stylesheet" href="/static/css/styles.css">
-    <script src="/static/js/home.js"></script>    
+    <script src="/static/js/home.js"></script>
+      
 </head>
 <body>
     <header>MyCripto</header>
@@ -42,59 +43,69 @@
     </div>
     <div class="container" id="principal">
         <h2>Comprar/vender</h2>
-        <div class="row">
-            
-            <div class="column column-33">
-                From:
-                <select name="monedaFrom" id="monedaFrom" class = "monedaFrom">
-                    <div id="monedasStock"></div>
-                    <div id="#monedaSaldo"></div>
 
-                </select>
-            </div>  
-            <div class="column column-33">
-                To:
-                <select name="monedaTo" id="monedaTo" class = "monedaTo">
-                    <option value="EUR" value="1000">Euro</option> 
-                    <option value="BTC">Bitcoin</option> 
-                    <option value="ETH">Ethereum</option>
-                    <option value="XRP">XRP</option> 
-                    <option value="LTC">Debian</option> 
-                    <option value="BCH">Bitcoin Cash</option>
-                    <option value="BNB">Binance Coin</option>
-                    <option value="USDT">Tether</option>
-                    <option value="EOS">EOS</option>
-                    <option value="BSV">Bitcoin SV</option>
-                    <option value="XLM">Stellar</option>
-                    <option value="ADA">Cardano</option>
-                    <option value="TRX">Tron</option>
-                </select>
+        <div class="row">
+
+            <div class="column column-75">
+                <div class="row">
+                    <div class="column column-50">
+                        Moneda a vender:
+                        <select name="monedaFrom" id="monedaFrom" class = "monedaFrom"></select>
+                    </div>
+                    <div class="column column-50">
+                        Moneda a comprar:
+                        <select name="monedaTo" id="monedaTo" class = "monedaTo">
+                            <option value="EUR" value="1000">Euro</option> 
+                            <option value="BTC">Bitcoin</option> 
+                            <option value="ETH">Ethereum</option>
+                            <option value="XRP">XRP</option> 
+                            <option value="LTC">Debian</option> 
+                            <option value="BCH">Bitcoin Cash</option>
+                            <option value="BNB">Binance Coin</option>
+                            <option value="USDT">Tether</option>
+                            <option value="EOS">EOS</option>
+                            <option value="BSV">Bitcoin SV</option>
+                            <option value="XLM">Stellar</option>
+                            <option value="ADA">Cardano</option>
+                            <option value="TRX">Tron</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column column-33">
+                        Cantidad a vender:
+                        <input type="text" name="cantidadFrom" id="cantidadFrom" placeholder="Introduce la cantidad a vender">
+                    </div>
+                    <div class="column column-33">
+                        Cantidad a comprar:
+                        <div id="cantidadTo"></div>
+                    </div>
+                    <div class="column column-33">
+                        Tipo de cambio:
+                        <div id="exchangeRate"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column column-33">
+                        <button id="actualizaValor">Actualizar</button>
+                    </div>
+                    <div class="column column-33">
+                        <button id="grabaValor">Comprar</button>
+                        <script src="/static/js/apicode.js"></script>
+                    </div> 
+                    <div class="column column-33"> 
+                        <button id="status">Status</button>
+                        <script src="/static/js/status.js"></script>
+                    </div>
+                </div> 
             </div>
-            <div class="column column-33">
+            <div class="column column-25">
+                Saldo actual:
                 <div id = "situacionMonedas"></div>
             </div>
         </div>
-        <div class="row">
-            <div class="column column-33">
-                Cantidad:
-                <input type="text" name="cantidadFrom" id="cantidadFrom">
-            </div>
-            <div class="column column-33">
-                Cantidad: 
-                <div id="cantidadTo"></div>
-                Precio Unitario:
-                <div id="exchangeRate"></div>
-            </div>
-        </div>
-        <div class="row"><div>
-            </div>
-                <button id="actualizaValor">Actualizar</button>
-                <button id="grabaValor">Comprar</button>
-                <div id="datoValor"></div>
-                <script src="/static/js/apicode.js"></script>
-            </div>
-             
-        </div> 
+        <!-- Fila de los botones -->
+        
                                  
     </div>
 <footer>&copy 2021 -todos los derechos reservados</footer>
