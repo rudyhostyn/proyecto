@@ -17,8 +17,8 @@ const descMonedas2 = {
     EUR: 'Euro',
     BTC: 'Bitcoin', 
 }
-alert(localStorage.length);
-var index = Object.keys(descMonedas3)
+/*alert(localStorage.length);*/
+var index = Object.keys(descMonedas2)
 var valorActualMonedas ={}
 
 function sacaValorMonedas(){

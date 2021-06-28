@@ -13,29 +13,36 @@
     XLM: 'Stellar',
     ADA: 'Cardano',
     TRX: 'TRON',
-}
-*/
+}*/
+
 const descMonedas = {
     EUR: 'Euro',
-    BTC: 'Bitcoin', 
-    
+    BTC: 'Bitcoin'    
 }
 var descMonedas3 = {}
 function sacaUnicos(){
-    var listaMonedasCod = Object.keys(descMonedas2)
-    var listaMonedasVal = Object.values(descMonedas2)
+    var listaMonedasCod = Object.keys(descMonedas)
+    var listaMonedasVal = Object.values(descMonedas)
     for (var i = 0; i < listaMonedasCod.length; i++) {  
         codMoneda = listaMonedasCod[i]
         codMonedaVal = listaMonedasVal[i]
         var tt = document.getElementsByClassName(`v_${codMoneda}`)
         if (tt.length > 0){
-            /*descMonedas3[codMoneda] = codMonedaVal   */
-            descMonedas3 = localStorage.setItem(codMoneda, codMonedaVal);     
+            descMonedas3[codMoneda] = codMonedaVal
+            /*descMonedas3 = localStorage.setItem(codMoneda, codMonedaVal);*/
         }
     }
-console.log(descMonedas3)
 }
-/*Local storage:  https://rolandocaldas.com/html5/localstorage-en-html5 */
+/*Local storage:  https://rolandocaldas.com/html5/localstorage-en-html5 
+
+// Creamos un objeto
+var object = { 'uno' : '1', 'dos' : '2' };
+// Lo guardamos en localStorage pasandolo a cadena con JSON
+localStorage.setItem('key', JSON.stringify(object));
+// Creamos una nueva variable object2 con el valor obtenido de localStorage usando JSON recuperar el objeto inicial
+var object2 = JSON.parse(localStorage.getItem('key'));
+// La alerta mostrará 1 por pantalla
+alert(object2.uno);*/
 
 var status = 0
 function sacaValorUnico(){
@@ -57,8 +64,6 @@ function sacaValorUnico(){
         console.log("valorMonedaStr: " + valorMonedaStr)
         console.log("valorMonedaFlt: " + valorMonedaFlt)
         status = parseFloat(status) + parseFloat(valorMonedaFlt) * parseFloat(Cantidadmonedas)
-         
-
         }
     }
 }
@@ -90,12 +95,19 @@ function muestraMovimientos() {
             tbody = document.querySelector(".tabla-movimientos tbody")
             tbody.appendChild(fila)
         }
-        
     }
 }
-var unicos =[]
-function muestraSaldoMonedas(){
+var ultimaCantidadFromActualizada
+function grabaCantidadAComprar() {
+    /* Creamos esta variable para evitar grabar un valor sin actualizar previamente */
+    valor = document.querySelector("#cantidadFrom").value
+    ultimaCantidadFromActualizada = parseFloat(valor)
+    console.log(ultimaCantidadFromActualizada)    
+}
 
+var unicos =[]
+
+function muestraSaldoMonedas(){
     if (this.readyState === 4 && this.status === 200) {
         const resp1 = JSON.parse(this.responseText)
 
@@ -147,6 +159,7 @@ function muestraSaldoMonedas(){
     llamaApiMovimientos();
     sacaValorMonedas();
     sacaUnicos();
+    
     console.log(valorActualMonedas);
     }
 function capturaFormMovimiento() {
@@ -169,36 +182,62 @@ function borrado(){
     actualizaSaldoMonedas();
     window.location.reload()
 }
-function verifica(){
+function valida1(){
     /* control de no vender y comprar la misma moneda */
-
     var monedaAvender = document.querySelector("#monedaFrom").value
     var monedaAcomprar = document.querySelector("#monedaTo").value
     if (monedaAcomprar === monedaAvender) {
         alert("La moneda a comprar y a vender no pueden ser las mismas")
         borrado()
-    }
-    
-    /* Control de no vender mas de lo que tenemos excepto el Euro*/
-    var cantidadAVender = document.querySelector("#cantidadFrom").value
-    if (document.querySelector("#situacionMonedas").innerHTML.length === 0) {
-        var cantidadMaximaVenta = cantidadAVender+1
     }else{
-    var cantidadMaximaVenta = document.querySelector(`.c_${document.querySelector("#monedaFrom").value}`).innerHTML
+    valida2();
     }
+}
+function valida2(){
+    /* Control de no vender mas de lo que tenemos excepto el Euro*/ 
+    var cantidadMaximaVenta = 0
+    var cantidadAVenderStr = document.querySelector("#cantidadFrom").value
+    var cantidadAVenderFlt = parseFloat(cantidadAVenderStr)
+       
+    if (document.querySelector("#situacionMonedas").innerHTML.length === 0) {
+        var cantidadMaximaVenta = cantidadAVenderFlt+1
+    }else{
+        var cantidadMaximaVenta = document.querySelector(`.c_${document.querySelector("#monedaFrom").value}`).innerHTML
+    }
+        if(document.querySelector("#monedaFrom").value !== "EUR"){
+            if((cantidadMaximaVenta-cantidadAVenderFlt)>=0){
+                valida3();
+                }else{
+                    alert("No puedes vender tantas monedas")
+                    borrado()
+                }
+            }else{
+                valida3();
+            }
     
-
-    if(document.querySelector("#monedaFrom").value !== "EUR"){
-        if((cantidadMaximaVenta-cantidadAVender)>=0){
-            llamaApiCreaMovimiento()
+}
+function valida3(){    
+    /* Cantidad a vender sin valor */
+    valorCasillaCantidadAComprarStr = document.querySelector("#cantidadTo").innerHTML
+    valorCasillaCantidadAComprarFlt = parseFloat(valorCasillaCantidadAComprarStr)
+    if (valorCasillaCantidadAComprarFlt !== 0 && valorCasillaCantidadAComprarStr !== ""){
+        valida4();
         }else{
-            alert("No puedes vender")
+            alert("No has puesto valor de venta")
             borrado()
         }
-    }else{
+    }    
+function valida4(){
+    /* No se realiza la operación si se cambia la cantidad a comprar y no se actualiza */
+    valorStr = document.querySelector("#cantidadFrom").value
+    valorFlt = parseFloat(valorStr)
+    if (ultimaCantidadFromActualizada === valorFlt){
         llamaApiCreaMovimiento()
-    }
-
+        }else{
+            alert("Ha cambiado la cantidad a vender y no has actualizado")
+            borrado()
+        }
+    
 }
 function llamaApiCreaMovimiento() {
 
@@ -229,8 +268,10 @@ function llamaApiMovimientos() {
 window.onload = function() {
     actualizaSaldoMonedas();
     document.querySelector("#grabaValor")
-        .addEventListener("click", verifica)
+        .addEventListener("click", valida1)
     document.querySelector("#status")
         .addEventListener("click", sacaValorUnico)
+    document.querySelector("#actualizaValor")
+        .addEventListener("click", grabaCantidadAComprar)
     
 }
