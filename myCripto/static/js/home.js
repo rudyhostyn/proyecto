@@ -1,8 +1,8 @@
 
-/*const descMonedas = {
+const descMonedas = {
     EUR: 'Euro',
     BTC: 'Bitcoin', 
-    ETH: 'Ethereum',
+/*    ETH: 'Ethereum',
     XRP: 'XRP', 
     LTC: 'Debian', 
     BCH: 'Bitcoin Cash',
@@ -12,42 +12,13 @@
     BSV: 'Bitcoin SV',
     XLM: 'Stellar',
     ADA: 'Cardano',
-    TRX: 'TRON',
-}*/
-
-const descMonedas = {
-    EUR: 'Euro',
-    BTC: 'Bitcoin'    
+    TRX: 'TRON'*/
 }
-var descMonedas3 = {}
-function sacaUnicos(){
+
+function sacaValorUnico(){
+    var status = 0
     var listaMonedasCod = Object.keys(descMonedas)
     var listaMonedasVal = Object.values(descMonedas)
-    for (var i = 0; i < listaMonedasCod.length; i++) {  
-        codMoneda = listaMonedasCod[i]
-        codMonedaVal = listaMonedasVal[i]
-        var tt = document.getElementsByClassName(`v_${codMoneda}`)
-        if (tt.length > 0){
-            descMonedas3[codMoneda] = codMonedaVal
-            /*descMonedas3 = localStorage.setItem(codMoneda, codMonedaVal);*/
-        }
-    }
-}
-/*Local storage:  https://rolandocaldas.com/html5/localstorage-en-html5 
-
-// Creamos un objeto
-var object = { 'uno' : '1', 'dos' : '2' };
-// Lo guardamos en localStorage pasandolo a cadena con JSON
-localStorage.setItem('key', JSON.stringify(object));
-// Creamos una nueva variable object2 con el valor obtenido de localStorage usando JSON recuperar el objeto inicial
-var object2 = JSON.parse(localStorage.getItem('key'));
-// La alerta mostrará 1 por pantalla
-alert(object2.uno);*/
-
-var status = 0
-function sacaValorUnico(){
-    var listaMonedasCod = Object.keys(descMonedas2)
-    var listaMonedasVal = Object.values(descMonedas2)
     for (var i = 0; i < listaMonedasCod.length; i++) {  
         codMoneda = listaMonedasCod[i]
         codMonedaVal = listaMonedasVal[i]
@@ -57,15 +28,26 @@ function sacaValorUnico(){
         Cantidadmonedas = eval(cantidadMonedas)
         valorMonedaStr = valorActualMonedas[codMonedaVal]
         valorMonedaFlt = parseFloat(valorMonedaStr)
-        console.log("codMoneda: " + codMoneda)
-        console.log("Cantidadmonedas: " + Cantidadmonedas)
-        console.log("cantidadMonedas: " + cantidadMonedas)
-        console.log("codMonedaVal: " + codMonedaVal)
-        console.log("valorMonedaStr: " + valorMonedaStr)
-        console.log("valorMonedaFlt: " + valorMonedaFlt)
         status = parseFloat(status) + parseFloat(valorMonedaFlt) * parseFloat(Cantidadmonedas)
         }
     }
+    var dondeColocoStatus = document.querySelector("#colocarStatus")
+    fila = document.createElement("p")
+    fila.innerHTML = status
+    dondeColocoStatus.appendChild(fila)
+
+    var dondeColocoInversion = document.querySelector("#colocarInversion")
+    fila2 = document.createElement("p")
+    valor2 = document.querySelector(".c_EUR").innerHTML
+    fila2.innerHTML = -valor2
+    dondeColocoInversion.appendChild(fila2)
+    console.log(status-valor2)
+
+    var colocarSaldoActual = document.querySelector("#colocarSaldoActual")
+    fila2 = document.createElement("p")
+    valor3 = status-valor2
+    fila2.innerHTML = valor3
+    colocarSaldoActual.appendChild(fila2)
 }
 const xhr2 = new XMLHttpRequest()
 
@@ -96,6 +78,7 @@ function muestraMovimientos() {
             tbody.appendChild(fila)
         }
     }
+    sacaValorUnico();
 }
 var ultimaCantidadFromActualizada
 function grabaCantidadAComprar() {
@@ -115,7 +98,10 @@ function muestraSaldoMonedas(){
             alert("Se ha producido un error en la consulta de movimientos")
             return
         }
-        /* Calculamos las monedas que tienen saldo -> unicos */
+
+        
+        console.log(this.responseText)
+        /*Calculamos las monedas que tienen saldo -> unicos*/
         const distinto = (valor, indice, self) => {
             return self.indexOf(valor) === indice;
         }
@@ -130,13 +116,13 @@ function muestraSaldoMonedas(){
             var total = unique.push("EUR")
         }
         var unicos = unique.filter(distinto)
-      
-        
+        console.log(this.responseText)
+            
         /* Campo lista desplegable: solo aparecen valores que tengan saldo y siempre euro */
-        for (let i = 0; i < unicos.length; i++){
+        for (let i = 0; i < unique.length; i++){
             const filas = document.createElement("option")
-            filas.setAttribute("value", unicos[i])
-            const monedaDentro =`<td id="c_moneda_from">${unicos[i] ? descMonedas[unicos[i]] : ""}</td>`
+            filas.setAttribute("value", unique[i])
+            const monedaDentro =`<td id="c_moneda_from">${unique[i] ? descMonedas[unique[i]] : ""}</td>`
             filas.innerHTML = monedaDentro
             monedasStock = document.querySelector("#monedaFrom")
             monedasStock.appendChild(filas)
@@ -150,18 +136,15 @@ function muestraSaldoMonedas(){
             const monedaCod =`
                 <td class ="v_${movimiento.monedaCodigo}">${movimiento.monedaCodigo ? descMonedas[movimiento.monedaCodigo] : ""}</td>        
                 <td class ="c_${movimiento.monedaCodigo}">${movimiento.monedaSaldo}</td>
-            `
+                `
             fila.innerHTML = monedaCod
             aaa.appendChild(fila)  
             }
         }       
     } 
-    llamaApiMovimientos();
-    sacaValorMonedas();
-    sacaUnicos();
+    llamaApiMovimientos();       
     
-    console.log(valorActualMonedas);
-    }
+}
 function capturaFormMovimiento() {
     var today = new Date();
     var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
@@ -178,8 +161,9 @@ function capturaFormMovimiento() {
 function borrado(){
 
     document.querySelectorAll('.paraBorrar').forEach(e => e.remove());
-    llamaApiMovimientos();
+    /*llamaApiMovimientos();
     actualizaSaldoMonedas();
+    sacaValorUnico();*/
     window.location.reload()
 }
 function valida1(){
@@ -264,14 +248,31 @@ function llamaApiMovimientos() {
     xhr2.send()
 }
 
+var index = Object.keys(descMonedas)
+var valorActualMonedas = {}
+var claveApi = "0b92c0c3-80c0-40a5-8611-295434c86c96"
 
+function sacaValorMonedas(){
+    for (var i = 0; i < index.length; i++) {
+        var url = `https://pro-api.coinmarketcap.com/v1/tools/price-conversion?amount=1&symbol=${index[i]}&convert=EUR&CMC_PRO_API_KEY=0b92c0c3-80c0-40a5-8611-295434c86c96`
+        let xhr6 = new XMLHttpRequest();
+        xhr6.open("GET", url);
+        xhr6.onreadystatechange = function() {
+            if(xhr6.readyState === XMLHttpRequest.DONE && xhr6.status === 200) {
+                var data = JSON.parse(xhr6.responseText);
+                divisa2 = Object.keys(data.data.quote)[0]
+                valor = `data.data.quote.${divisa2}.price`    
+                valorActualMonedas[data.data.name] = eval(valor)
+            }
+            actualizaSaldoMonedas();       
+        }
+    xhr6.send();
+    }
+}
 window.onload = function() {
-    actualizaSaldoMonedas();
+    sacaValorMonedas();     
     document.querySelector("#grabaValor")
         .addEventListener("click", valida1)
-    document.querySelector("#status")
-        .addEventListener("click", sacaValorUnico)
     document.querySelector("#actualizaValor")
-        .addEventListener("click", grabaCantidadAComprar)
-    
+        .addEventListener("click", grabaCantidadAComprar)    
 }

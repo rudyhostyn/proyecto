@@ -71,3 +71,10 @@ def saldo():
         return jsonify({'status': 'success', 'movimientos': movimientos})
     except sqlite3.Error as e:
         return jsonify({'status': 'fail', 'mensaje': str(e)})
+
+@app.route('/api/v1/par/<_from>/<_to>/<quantity>')
+@app.route('/api/v1/par/<_from>/<_to>')
+def par(_from, _to, quantity = 1.0):
+    url = f"https://pro-api.coinmarketcap.com/v1/tools/price-conversion?amount={quantity}&symbol={_from}&convert={_to}&CMC_PRO_API_KEY=b54bcf4d-1bca-4e8e-9a24-22ff2c3d462c"
+    res = requests.get(url)
+    return Response(res)

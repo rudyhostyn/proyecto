@@ -8,44 +8,58 @@
     <link rel="stylesheet" href="/static/css/milligram.css">
     <link rel="stylesheet" href="/static/css/styles.css">
     <script src="/static/js/home.js"></script>
+    
+    
       
 </head>
 <body>
     <header>MyCripto</header>
-    
-    <section class="container" id="principal">
-        <h2>Balance de movimientos</h2> 
-            
-        <div class="lista-movimientos" style="
-                border: 1px solid #333333;
-                height: 18vw;
-                overflow: scroll;">
-            <table class="tabla-movimientos">
-                <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Hora</th>
-                        <th>From</th>
-                        <th>Cantidad</th>
-                        <th>To</th>
-                        <th>Cantidad</th>
-                    </tr>
-                </thead>
-                <tbody ></tbody>  
-                                
-            </table>
+    <!--------------   arriba     ---------------------->
+    <div class="container" id="principal">    
+    <div class="row">
+        <!-------- columna izda  ---------------------->
+        <div class="column column-75" >
+            <h2>Balance de movimientos</h2> 
+                    
+            <div class="lista-movimientos" style="
+                    border: 1px solid #333333;
+                    height: 18vw;
+                    overflow: scroll;">
+                <table class="tabla-movimientos">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>From</th>
+                            <th>Cantidad</th>
+                            <th>To</th>
+                            <th>Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody ></tbody>  
+                </table>
+            </div>
         </div>
-       
-    </section>
-    <hr>
-    <div class="detail-movimiento container">
-    
+        <!-------- columna dcha  ---------------------->
+        <div class="column column-25">
+            <h2>Rdo Inversion</h2> 
+            Invertido:
+            <div id = "colocarInversion"></div>
+            Saldo inversion actual:
+            <div id = "colocarSaldoActual"></div>
+            Beneficio:
+            <div id = "colocarStatus"></div>
+        </div>
     </div>
+</div>
+<!--------------   fin arriba     ---------------------->
+
+<!--------------   fila inferior     ---------------------->
     <div class="container" id="principal">
         <h2>Comprar/vender</h2>
 
         <div class="row">
-
+            <!-------- columna izda  ---------------------->
             <div class="column column-75">
                 <div class="row">
                     <div class="column column-50">
@@ -93,15 +107,17 @@
                         <button id="grabaValor">Comprar</button>
                         <script src="/static/js/apicode.js"></script>
                     </div> 
-                    <div class="column column-33"> 
-                        <button id="status">Status</button>
-                        <script src="/static/js/status.js"></script>
-                    </div>
+
                 </div> 
             </div>
+            <!-------- columna dcha  ---------------------->
             <div class="column column-25">
-                Saldo actual:
-                <div id = "situacionMonedas"></div>
+                Saldo actual en unidades:
+                <div class="lista-movimientos" style="
+                border: 1px solid #333333;
+                height: 10vw;
+                overflow: scroll;" id = "situacionMonedas"></div>
+                
             </div>
         </div>
         <!-- Fila de los botones -->

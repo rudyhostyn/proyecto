@@ -19,9 +19,9 @@ const descMonedas2 = {
 }
 /*alert(localStorage.length);*/
 var index = Object.keys(descMonedas2)
-var valorActualMonedas ={}
+var valorActualMonedas = {}
 
-function sacaValorMonedas(){
+function sacaValorMonedas1(){
     for (var i = 0; i < index.length; i++) {
         var url = `https://pro-api.coinmarketcap.com/v1/tools/price-conversion?amount=1&symbol=${index[i]}&convert=EUR&CMC_PRO_API_KEY=0b92c0c3-80c0-40a5-8611-295434c86c96`
         /* var url = `https://sandbox-api.coinmarketcap.com/v1/tools/price-conversion?amount=1&symbol=${index[i]}&convert=EUR&CMC_PRO_API_KEY=b54bcf4d-1bca-4e8e-9a24-22ff2c3d462c`*/
