@@ -31,7 +31,8 @@ document.querySelector("#actualizaValor")
     .addEventListener("click", () => {
         const monedaFrom = document.querySelector("#monedaFrom").value
         const monedaTo = document.querySelector("#monedaTo").value
-        xhr.open('GET', `https://pro-api.coinmarketcap.com/v1/tools/price-conversion?amount=1&symbol=${monedaFrom}&convert=${monedaTo}&CMC_PRO_API_KEY=0b92c0c3-80c0-40a5-8611-295434c86c96`, true)
-        /*xhr.open('GET', `https://sandbox-api.coinmarketcap.com/v1/tools/price-conversion?amount=1&symbol=${monedaFrom}&convert=${monedaTo}&CMC_PRO_API_KEY=b54bcf4d-1bca-4e8e-9a24-22ff2c3d462c`, true)*/
+        url = `http://localhost:5000/api/v1/par/${monedaFrom}/${monedaTo}`
+        xhr.open('GET', url , true)
         xhr.send();
-            })
+    }
+)

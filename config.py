@@ -1,2 +1,4 @@
 
-DATABASE="dbmovimientos.db"
+DATABASE = "dbmovimientos.db"
+API_COINMARKET2 = "0b92c0c3-80c0-40a5-8611-295434c86c96"
+API_COINMARKET = "6ba44227-d5e7-47c9-8d3f-2148e0dcbeb9"
